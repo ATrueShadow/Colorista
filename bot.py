@@ -46,8 +46,12 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(user: discord.Member):
-	if (roles.get(user) != None):
-		await user.add_roles(roles[user], reason=f"Colorista assigned role. Done automaticaly by bot on member join.")
+	try:
+		role = get(user.guild.roles, id=roles.find_one({"userId": user.id})["roleId"])
+	except:
+		pass
+	else:
+		await user.add_roles(role, reason="Colorista assigned role. Done automatically on member join.")
 
 # end of events
 
